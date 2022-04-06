@@ -112,7 +112,7 @@ class Text() :
                     
                     last_x, last_y, last_width, last_height = last_contour
 
-                    if t_x - (last_x+last_width) <= 10 :       
+                    if (t_x - (last_x+last_width) <= 10) and (abs((t_y + t_height)/2 - (last_y + last_height)/2)<=10):       
                         # x , y , width, height, text
                         contour[0] = min(contour[0],t_x)
                         contour[1] = min(contour[1],t_y)
@@ -132,10 +132,10 @@ class Text() :
         
         possible_contour.append(contour)
 
-        print("Complete contour")
+        #print("Complete contour")
         for c in possible_contour : 
             
-            print(c)
+            #print(c)
             if c :
                 x, y, width, height, word = c
                 #image = cv2.rectangle(image,(x,y),(x+width,y+height),(255,255,0),1)
