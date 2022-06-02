@@ -39,44 +39,44 @@ class Text() :
         return math.sqrt(math.pow(x2-x1,2) + math.pow(y2-y1,2))
  
     def word_is_in_range(self, x, y, width, height, incline, intercept, start, end) :
-        # »ç°İÇü ³×¸é Áß 1°³ÀÇ ¸éÀÌ¶óµµ Áö³ª°¡¸é µÎ°³ÀÇ ¸éÀ» Áö³ª°¡¹Ç·Î 
-        # 1°³¸¸ Ã¼Å©µÇ¾îµµ return True
+        # ì‚¬ê²©í˜• ë„¤ë©´ ì¤‘ 1ê°œì˜ ë©´ì´ë¼ë„ ì§€ë‚˜ê°€ë©´ ë‘ê°œì˜ ë©´ì„ ì§€ë‚˜ê°€ë¯€ë¡œ 
+        # 1ê°œë§Œ ì²´í¬ë˜ì–´ë„ return True
 
-        # ¼Õ°¡¶ô °¡¸®Å°´Â ¹æÇâ
+        # ì†ê°€ë½ ê°€ë¦¬í‚¤ëŠ” ë°©í–¥
         start_x = min(start[0],end[0])
         start_y = min(start[1],end[1])
         end_x = max(start[0],end[0])
         end_y  = max(start[1],end[1])
 
 
-        # À­¸é Áö³ª°¡´ÂÁö ±³Á¡ check
+        # ìœ—ë©´ ì§€ë‚˜ê°€ëŠ”ì§€ êµì  check
         x_check = (y - intercept)/incline 
         if (x <= x_check and x_check <= (x+width)) and (start_x <= x_check and x_check <= end_x) and (start_y <= y and y <= end_y):
             return True
-        # ¾Æ·§¸é check
+        # ì•„ë«ë©´ check
         x_check = (y + height - intercept)/incline
         if (x <= x_check and x_check <= (x+width)) and (start_x <= x_check and x_check <= end_x) and (start_y <= (y+height) and (y+height) <= end_y):
             return True
  
-        # ¿ŞÂÊ check
+        # ì™¼ìª½ check
         y_check = incline*x + intercept
         if (y <= y_check and y_check <= (y+height)) and (start_y <= y_check and y_check <= end_y) and (start_x <= x and x <= end_x):
             return True
-        # ¿À¸¥ÂÊ check
+        # ì˜¤ë¥¸ìª½ check
         y_check = incline*(x+width) + intercept
         if (y <= y_check and y_check <= (y+height)) and (start_y <= y_check and y_check <= end_y) and (start_x <= (x+width) and (x+width) <= end_x):
             return True
 
         return False
     
-    # ´Ü¾î ¹Ú½ºÀÇ Áß½ÉÁ¡°ú °ËÁö Á¦ÀÏ ³¡ ¼Õ°¡¶ô°úÀÇ °Å¸® ¹İÈ¯
+    # ë‹¨ì–´ ë°•ìŠ¤ì˜ ì¤‘ì‹¬ì ê³¼ ê²€ì§€ ì œì¼ ë ì†ê°€ë½ê³¼ì˜ ê±°ë¦¬ ë°˜í™˜
     def word_dist(self, x, y, width, height, end):
-        mid_x = (x+width)/2
-        mid_y = (y+height)/2
+        mid_x = x + (x+width)/2
+        mid_y = y + (y+height)/2
         return self.dist(mid_x,mid_y,end[0],end[1])
 
     
-    # ÇÏ³ªÀÇ ´Ü¾î°¡ °¡´ÉÇÒ °Å °°Àº contour ¸¸µé±â
+    # í•˜ë‚˜ì˜ ë‹¨ì–´ê°€ ê°€ëŠ¥í•  ê±° ê°™ì€ contour ë§Œë“¤ê¸°
     def Make_PossibleContour(self, results):
 
         possible_contour = []
@@ -89,7 +89,7 @@ class Text() :
             conf = float(results['conf'][i])
                
             
-            # Á¤È®µµ°¡ 70 ÀÌ»óÀÌ¸é
+            # ì •í™•ë„ê°€ 70 ì´ìƒì´ë©´
             if conf >= 70 :
 
                 #if results["text"][i] :
@@ -121,7 +121,7 @@ class Text() :
 
                         contour[4] = contour[4] + t_text
                     else :
-                        # ÇÏ³ªÀÇ ´Ü¾î·Î ÃßÁ¤µÇ´Â contour ÃßÃâ
+                        # í•˜ë‚˜ì˜ ë‹¨ì–´ë¡œ ì¶”ì •ë˜ëŠ” contour ì¶”ì¶œ
                         possible_contour.append(contour)
                         contour = [t_x, t_y, t_width, t_height, t_text]
 
@@ -158,7 +158,7 @@ class Text() :
         near_word = ''
         max_dist = 10000
 
-        # ¹Ú½º ±×¸®±â¿ë
+        # ë°•ìŠ¤ ê·¸ë¦¬ê¸°ìš©
         one_word_box = [0,0,0,0]
         
 
@@ -168,11 +168,11 @@ class Text() :
             if c :
                 x, y, width, height, word = c
                 
-                # ¼Õ°¡¶ô °¡¸®Å°´Â Á÷¼±»ó¿¡ ´Ü¾î ¹Ú½º°¡ ÀÖ´ÂÁö
+                # ì†ê°€ë½ ê°€ë¦¬í‚¤ëŠ” ì§ì„ ìƒì— ë‹¨ì–´ ë°•ìŠ¤ê°€ ìˆëŠ”ì§€
                 if self.word_is_in_range(x, y, width, height, 
                                          incline, intercept, start, end):
                     
-                    now_dist = self.word_dist(x,y,width,height,end) 
+                    now_dist = self.word_dist(x,y,width,height, start) 
                     #print("now_dist %f"%(now_dist))
                     
                     if max_dist > now_dist :
@@ -189,7 +189,7 @@ class Text() :
         #print("word_list")
         #print(word_list)
         
-        # ¼Õ°¡¶ô¿¡¼­ °¡Àå °¡±î¿î ´Ü¾î°¡ ÃßÃâµÆ´Ù¸é 
+        # ì†ê°€ë½ì—ì„œ ê°€ì¥ ê°€ê¹Œìš´ ë‹¨ì–´ê°€ ì¶”ì¶œëë‹¤ë©´ 
         if near_word :    
             #if self.is_hanguel(near_word) :
             #    near_word = SearchKorWord(near_word)
@@ -198,7 +198,7 @@ class Text() :
                 print("already found")
                 return 
 
-            #print("ÃÖÁ¾ °ËÃâ ´Ü¾î : " + near_word)
+            #print("ìµœì¢… ê²€ì¶œ ë‹¨ì–´ : " + near_word)
             self.__word = near_word
             image = cv2.rectangle(image,(one_word_box[0],one_word_box[1]),
                                     (one_word_box[0]+one_word_box[2],one_word_box[1]+one_word_box[3]),(255,255,0),1)
